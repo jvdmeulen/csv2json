@@ -41,7 +41,13 @@ function csv2json (opts) {
   return pumpify([
     stripBomStream(),
     parseCsv({
-      separator: opts.separator
+      raw: opts.raw || false,     // do not decode to utf-8 strings
+      separator: opts.separator, // specify optional cell separator
+      quote: opts.quote || '"',     // specify optional quote character
+      escape: opts.escape || '"',    // specify optional escape character (defaults to quote value)
+      newline: opts.newline || '\n',  // specify a newline character
+      strict: opts.strict || true,    // require column length match headers length
+      headers: opts.headers || null
     }),
     (function () {
       var notFirst = false
